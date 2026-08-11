@@ -20,9 +20,6 @@ backend/chroma_db/
 # Uploads
 uploads/
 
-# Local Claude memory
-.claude/
-
 # IDE
 .vscode/
 .idea/
