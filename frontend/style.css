@@ -342,7 +342,7 @@ header h1 {
 }
 
 .message-content blockquote {
-    border-left: 3px solid var(--primary);
+    border-left: 3px solid var(--primary-color);
     padding-left: 1rem;
     margin: 0.5rem 0;
     color: var(--text-secondary);
@@ -785,4 +785,173 @@ details[open] .suggested-header::before {
     .sidebar {
         width: 280px;
     }
+}
+
+/* Light mode variables */
+body.light-mode {
+    /* Layout */
+    --background: #f1f5f9;
+    --surface: #ffffff;
+    --surface-hover: #f8fafc;
+    --border-color: #cbd5e1;
+    --shadow: 0 2px 4px rgba(0, 0, 0, 0.06), 0 4px 12px rgba(0, 0, 0, 0.04);
+
+    /* Typography - both pass WCAG AA on white and #f1f5f9 */
+    --text-primary: #0f172a;
+    --text-secondary: #475569;
+
+    /* Interactive */
+    --primary-color: #2563eb;
+    --primary-hover: #1d4ed8;
+    --focus-ring: rgba(37, 99, 235, 0.2);
+
+    /* Message bubbles */
+    --user-message: #2563eb;
+    --assistant-message: #ffffff;
+
+    /* Welcome card */
+    --welcome-bg: #eff6ff;
+    --welcome-border: #3b82f6;
+}
+
+/* Code / pre blocks */
+body.light-mode .message-content code {
+    background-color: rgba(15, 23, 42, 0.06);
+    color: #1e293b;
+}
+
+body.light-mode .message-content pre {
+    background-color: rgba(15, 23, 42, 0.05);
+    border: 1px solid var(--border-color);
+}
+
+body.light-mode .message-content pre code {
+    color: inherit;
+}
+
+/* Error message - #f87171 fails on light backgrounds (~2.3:1); use #dc2626 (~5.9:1) */
+body.light-mode .error-message {
+    background: rgba(239, 68, 68, 0.07);
+    color: #dc2626;
+    border-color: rgba(239, 68, 68, 0.25);
+}
+
+/* Success message - #4ade80 fails on light backgrounds (~1.6:1); use #16a34a (~4.7:1) */
+body.light-mode .success-message {
+    background: rgba(22, 163, 74, 0.07);
+    color: #16a34a;
+    border-color: rgba(22, 163, 74, 0.25);
+}
+
+/* Source link pills */
+body.light-mode .sources-content a {
+    color: #1d4ed8;
+    background: rgba(37, 99, 235, 0.07);
+    border-color: rgba(37, 99, 235, 0.22);
+}
+
+body.light-mode .sources-content a:hover {
+    background: rgba(37, 99, 235, 0.14);
+    border-color: rgba(37, 99, 235, 0.4);
+    color: #1e40af;
+}
+
+/* Source tag pills (no link) - increase border opacity so they're visible on white */
+body.light-mode .sources-content .source-tag {
+    background: rgba(71, 85, 105, 0.07);
+    color: var(--text-secondary);
+    border-color: rgba(71, 85, 105, 0.22);
+}
+
+/* Assistant bubble - subtle shadow for depth against light background */
+body.light-mode .message.assistant .message-content {
+    background: var(--assistant-message);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+/* Welcome card - reduce shadow intensity for light context */
+body.light-mode .message.welcome-message .message-content {
+    border-color: var(--welcome-border);
+    box-shadow: 0 2px 8px rgba(37, 99, 235, 0.08);
+}
+
+/* Smooth theme transitions */
+body,
+.sidebar,
+.chat-main,
+.chat-container,
+.chat-messages,
+.chat-input-container,
+.message-content,
+#chatInput,
+#sendButton,
+.suggested-item,
+.stats-header,
+.suggested-header,
+#newChatButton,
+.course-title-item,
+.stat-label,
+.stat-value,
+.sources-content a,
+.sources-content .source-tag {
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Theme toggle button */
+#themeToggle {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    z-index: 100;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 1px solid var(--border-color);
+    background: var(--surface);
+    color: var(--text-secondary);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+#themeToggle:hover {
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+    transform: scale(1.08);
+    box-shadow: 0 0 0 4px var(--focus-ring);
+}
+
+#themeToggle:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px var(--focus-ring);
+    border-color: var(--primary-color);
+}
+
+/* Icon transition animations */
+#themeToggle .icon-sun,
+#themeToggle .icon-moon {
+    position: absolute;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+#themeToggle .icon-sun {
+    opacity: 1;
+    transform: rotate(0deg) scale(1);
+}
+
+#themeToggle .icon-moon {
+    opacity: 0;
+    transform: rotate(90deg) scale(0.5);
+}
+
+body.light-mode #themeToggle .icon-sun {
+    opacity: 0;
+    transform: rotate(-90deg) scale(0.5);
+}
+
+body.light-mode #themeToggle .icon-moon {
+    opacity: 1;
+    transform: rotate(0deg) scale(1);
 }

@@ -17,10 +17,39 @@ document.addEventListener('DOMContentLoaded', () => {
     courseTitles = document.getElementById('courseTitles');
 
     setupEventListeners();
+    initTheme();
     createNewSession();
     loadCourseStats();
     document.getElementById('newChatButton').addEventListener('click', createNewSession);
 });
+
+function initTheme() {
+    const saved = localStorage.getItem('theme');
+    if (saved === 'light') {
+        applyTheme('light');
+    }
+    document.getElementById('themeToggle').addEventListener('click', toggleTheme);
+}
+
+function toggleTheme() {
+    const isLight = document.body.classList.contains('light-mode');
+    applyTheme(isLight ? 'dark' : 'light');
+}
+
+function applyTheme(theme) {
+    const toggle = document.getElementById('themeToggle');
+    if (theme === 'light') {
+        document.body.classList.add('light-mode');
+        toggle.setAttribute('aria-label', 'Switch to dark mode');
+        toggle.setAttribute('title', 'Switch to dark mode');
+        localStorage.setItem('theme', 'light');
+    } else {
+        document.body.classList.remove('light-mode');
+        toggle.setAttribute('aria-label', 'Switch to light mode');
+        toggle.setAttribute('title', 'Switch to light mode');
+        localStorage.setItem('theme', 'dark');
+    }
+}
 
 // Event Listeners
 function setupEventListeners() {
