@@ -89,10 +89,22 @@ class VectorStore:
         # Use provided limit or fall back to configured max_results
         search_limit = limit if limit is not None else self.max_results
         
+        # Clamp n_results to actual filtered collection size to avoid
+        # ChromaDB raising InvalidArgumentError when n_results > available docs.
+        actual_limit = search_limit
+        if filter_dict is not None:
+            try:
+                count_result = self.course_content.get(where=filter_dict)
+                actual_count = len(count_result["ids"])
+                if 0 < actual_count < actual_limit:
+                    actual_limit = actual_count
+            except Exception:
+                pass
+
         try:
             results = self.course_content.query(
                 query_texts=[query],
-                n_results=search_limit,
+                n_results=actual_limit,
                 where=filter_dict
             )
             return SearchResults.from_chroma(results)
@@ -167,7 +179,7 @@ class VectorStore:
         documents = [chunk.content for chunk in chunks]
         metadatas = [{
             "course_title": chunk.course_title,
-            "lesson_number": chunk.lesson_number,
+            "lesson_number": chunk.lesson_number if chunk.lesson_number is not None else -1,
             "chunk_index": chunk.chunk_index
         } for chunk in chunks]
         # Use title with chunk index for unique IDs
