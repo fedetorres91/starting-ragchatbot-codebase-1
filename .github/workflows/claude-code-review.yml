@@ -22,6 +22,7 @@ jobs:
       - uses: anthropics/claude-code-action@beta
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          allowed_bots: "*"
           direct_prompt: |
             Please review this pull request. Check for:
             - Bugs or logic errors
