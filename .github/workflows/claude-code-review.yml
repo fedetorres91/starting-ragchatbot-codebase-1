@@ -23,6 +23,7 @@ jobs:
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
           allowed_bots: "*"
+          model: claude-haiku-4-5-20251001
           direct_prompt: |
             Please review this pull request. Check for:
             - Bugs or logic errors
